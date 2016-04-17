@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -15,14 +17,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static MainActivity mainactivity;
-    public static List<Sms> allSms = new ArrayList<>(10);;
-    public static List<Sms> inboxSms = new ArrayList<>();
-    public static List<Sms> outboxSms = new ArrayList<>();
+    public static List<Sms> allSms = new ArrayList<>();
+    public static List<Sms> qSms = new ArrayList<>();
+    public static List<Sms> aSms = new ArrayList<>();
+    public static List<ConversationFound> answersSms = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ListView lv = (ListView) findViewById(R.id.lvMainSms);
+        final EditText searchString = (EditText) findViewById(R.id.etSearchThis);
+        final Button startSearch = (Button) findViewById(R.id.bStartSearch);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,19 +38,55 @@ public class MainActivity extends AppCompatActivity {
       //  inboxSms = sf.getAllSms("content://sms/inbox");
        // outboxSms = sf.getAllSms("content://sms/outbox");
 
-        AdapterMainSort Ad = new AdapterMainSort(mainactivity, allSms, allSms );
-        lv.setAdapter(Ad);
+    //    AdapterMainSort Ad = new AdapterMainSort(mainactivity, allSms );
+    //    lv.setAdapter(Ad);
+        if(allSms.get(0).getMsg().contains("?")) {
+            SearchAlgorithms algo = new SearchAlgorithms();
+            answersSms = algo.findMatch(allSms.get(0).getMsg(), allSms);
+        }else{
+            SearchAlgorithms algo = new SearchAlgorithms();
+            answersSms = algo.findMatch(allSms.get(0).getMsg(), allSms);
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, /*allSms.get(1).getMsg()*/ String.valueOf(allSms.size()), Snackbar.LENGTH_LONG)
+               Snackbar.make(view, allSms.get(0).getMsg(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                AdapterMainSort Ad = new AdapterMainSort(mainactivity, allSms, allSms );
+                AdapterMainSort Ad = new AdapterMainSort(mainactivity, answersSms);
                 lv.setAdapter(Ad);
             }
         });
+
+        startSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchAlgorithms algo = new SearchAlgorithms();
+                answersSms = new ArrayList<ConversationFound>();
+                if(searchString.getText().toString().equals("")){
+                    answersSms = algo.findMatch(allSms.get(0).getMsg(), allSms);
+                }else{
+                    answersSms = algo.findMatch(searchString.getText().toString(), allSms);
+                }
+                AdapterMainSort Ad = new AdapterMainSort(mainactivity, answersSms);
+                lv.setAdapter(Ad);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        allSms = new ArrayList<>();
+        SmsFunctions sf = new SmsFunctions();
+        sf.getAllSms("content://sms/");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+
     }
 
     @Override
@@ -68,9 +110,10 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public static void uppdateSmsList(List<Sms> listS){
-        AdapterMainSort Ad = new AdapterMainSort(mainactivity, listS, listS );
+ /*   public static void uppdateSmsList(List<Sms> listS){
+        AdapterMainSort Ad = new AdapterMainSort(mainactivity, listS );
         ListView lv = (ListView) MainActivity.mainactivity.findViewById(R.id.lvMainSms);
         lv.setAdapter(Ad);
     }
+ */
 }

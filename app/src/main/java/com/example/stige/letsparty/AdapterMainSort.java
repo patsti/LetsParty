@@ -22,17 +22,15 @@ public class AdapterMainSort extends BaseAdapter{
 
     private Context c;
     private final LayoutInflater mInflater;
-    private List<Sms> dataInput;
-    private List<List<Sms>> data;
+    private List<ConversationFound> data;
     private static LayoutInflater inflater=null;
 
     //public ImageLoader imageLoader;
 
-    public AdapterMainSort(Context c, List<Sms> inbox, List<Sms> outbox) {
+    public AdapterMainSort(Context c, List<ConversationFound> inbox) {
         mInflater = LayoutInflater.from(c);
         data = new ArrayList<>();
-        data.add(inbox);
-        //data.add(outbox);
+        data.addAll(inbox);
         Toast.makeText(MainActivity.mainactivity, "sms list size: " + String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
         inflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //  imageLoader=new ImageLoader(activity.getApplicationContext());
@@ -53,13 +51,24 @@ public class AdapterMainSort extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         if(convertView==null)
-            vi = inflater.inflate(R.layout.item_main, null);
+            vi = inflater.inflate(R.layout.item_sms, null);
 
-        TextView title = (TextView)vi.findViewById(R.id.title); // title
-        ListView smsList = (ListView) vi.findViewById(R.id.lvAdapterMain);
-        AdapterSmsList Ad = new AdapterSmsList(MainActivity.mainactivity, data.get(position));
+        Sms smsQ = data.get(position).getQuestion();
+        Sms smsR = data.get(position).getResponse();
+        TextView toQ = (TextView)vi.findViewById(R.id.tvAdapterSmsTo1); // title
+        TextView fromQ = (TextView)vi.findViewById(R.id.tvAdapterSmsFrom1); // title
+        TextView contentQ = (TextView)vi.findViewById(R.id.tvAdapterSmsContent1); // title
+        TextView toR = (TextView)vi.findViewById(R.id.tvAdapterSmsTo2); // title
+        TextView fromR = (TextView)vi.findViewById(R.id.tvAdapterSmsFrom2); // title
+        TextView contentR = (TextView)vi.findViewById(R.id.tvAdapterSmsContent2); // title
 
-        smsList.setAdapter(Ad);
+        toQ.setText(smsQ.getAddress());
+        fromQ.setText(smsQ.getFolderName());
+        contentQ.setText(smsQ.getMsg());
+        //respons
+        toR.setText(smsR.getAddress());
+        fromR.setText(smsR.getFolderName());
+        contentR.setText(smsR.getMsg());
 
         return vi;
     }

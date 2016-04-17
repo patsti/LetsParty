@@ -49,7 +49,7 @@ public class AdapterSmsList extends BaseAdapter {
         if(convertView==null)
             vi = inflater.inflate(R.layout.item_sms, null);
 
-        TextView to = (TextView)vi.findViewById(R.id.tvAdapterSmsTo); // title
+     /*   TextView to = (TextView)vi.findViewById(R.id.tvAdapterSmsTo); // title
         TextView from = (TextView)vi.findViewById(R.id.tvAdapterSmsFrom); // title
         TextView content = (TextView)vi.findViewById(R.id.tvAdapterSmsContent); // title
 
@@ -58,7 +58,7 @@ public class AdapterSmsList extends BaseAdapter {
         to.setText(sms.getTime() +" : ");
         from.setText(sms.getId());
         content.setText(sms.getMsg());
-
+    */
 //    imageLoader.DisplayImage(song.get(CustomizedListView.KEY_THUMB_URL), thumb_image);
         return vi;
     }

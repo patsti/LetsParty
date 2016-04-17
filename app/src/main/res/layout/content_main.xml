@@ -16,11 +16,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!" />
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/etSearchThis"
+            android:layout_width="200dp"
+            android:layout_height="60dp" />
+        <Button
+            android:id="@+id/bStartSearch"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:text="Find Answers"/>
+    </LinearLayout>
     <ListView
         android:id="@+id/lvMainSms"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="#80000000"
+        android:layout_marginTop="100dp"
         ></ListView>
 
 </RelativeLayout>

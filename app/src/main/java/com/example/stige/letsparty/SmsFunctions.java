@@ -31,6 +31,7 @@ public class SmsFunctions {
         MainActivity.mainactivity.startManagingCursor(c);
         int totalSMS = c.getCount();
 
+
         if (c.moveToFirst()) {
             for (int i = 0; i < totalSMS; i++) {
 
@@ -48,13 +49,15 @@ public class SmsFunctions {
                 }
 
                 lstSms.add(objSms);
-                if(MainActivity.allSms.size() < 10){
-                    Log.d("!!!Här e vi!!!", objSms.getId());
-                    MainActivity.allSms.add(objSms);
+                if(objSms.getMsg().contains("?")){
+                    MainActivity.qSms.add(objSms);
+                }else{
+                    MainActivity.aSms.add(objSms);
                 }
+                //MainActivity.allSms.add(objSms);
+
                 c.moveToNext();
             }
-            Toast.makeText(MainActivity.mainactivity, "update list with size: "+String.valueOf(lstSms.size()), Toast.LENGTH_SHORT).show();
             MainActivity.allSms.addAll(lstSms);
         }
         // else {
