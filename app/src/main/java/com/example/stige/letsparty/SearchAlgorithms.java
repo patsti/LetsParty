@@ -12,21 +12,28 @@ public class SearchAlgorithms {
     public List<ConversationFound> findMatch(String sms, List<Sms> lSms){
         List<ConversationFound> Conversations = new ArrayList<>();
         String[] smsContent = sms.split(" ");//.getMsg().split(" ");
+        Rellations rel = new Rellations();
         int matchRate = smsContent.length;
         for(int i=0; i<matchRate; i++){
-            smsContent[i].replace("?","").replace("!","");
+            smsContent[i].replace("?","").replace("!", "").replace(".","").replace(",","");
         }
-        Toast.makeText(MainActivity.mainactivity, "hej :"+ String.valueOf(matchRate), Toast.LENGTH_LONG).show();
 
         for(int i = 1; i < lSms.size(); i++){
             int matchWords = 0;
             if(lSms.get(i).getFolderName().contains("sent")) {
                 for(int j = 0; j < matchRate; j++){
-                    if (lSms.get(i).getMsg().contains(" " + smsContent[j] + " ") || lSms.get(i).getMsg().startsWith(smsContent[j] + " ") || lSms.get(i).getMsg().endsWith(" " + smsContent[j])) {
-                        String[] smsContent2 = lSms.get(i).getMsg().split(" ");
-                        int spaces = smsContent2.length;
-                        if (spaces <= matchRate * 2) {
-                            matchWords++;
+                    String message = lSms.get(i).getMsg().replace("?", "").replace("!","").replace(".","").replace(",","");
+                    List<String> axioms = rel.getAxioms(smsContent[j]);
+
+                    for(int k=0; k<axioms.size(); k++) {
+
+                        if (message.contains(" " + axioms.get(k) + " ") || message.startsWith(axioms.get(k) + " ") || message.endsWith(" " + axioms.get(k))) {
+                            String[] smsContent2 = lSms.get(i).getMsg().split(" ");
+                            int spaces = smsContent2.length;
+
+                            if (spaces <= matchRate * 2) {
+                                matchWords++;
+                            }
                         }
                     }
                 }
