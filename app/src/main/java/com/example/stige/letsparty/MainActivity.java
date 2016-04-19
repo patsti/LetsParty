@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<Sms> allSms = new ArrayList<>();
     public static List<Sms> qSms = new ArrayList<>();
     public static List<Sms> aSms = new ArrayList<>();
-    public static List<ConversationFound> answersSms = new ArrayList<>();
+    public static List<Conversation> answersSms = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SearchAlgorithms algo = new SearchAlgorithms();
-                answersSms = new ArrayList<ConversationFound>();
+                answersSms = new ArrayList<Conversation>();
                 if(searchString.getText().toString().equals("")){
                     answersSms = algo.findMatch(allSms.get(0).getMsg(), allSms);
                 }else{

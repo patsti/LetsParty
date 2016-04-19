@@ -3,9 +3,9 @@ package com.example.stige.letsparty;
 /**
  * Created by Patirk on 13/04/2016.
  */
-public class ConversationFound {
+public class Conversation {
     private Sms question, response;
-    public ConversationFound(Sms q, Sms r){
+    public Conversation(Sms q, Sms r){
         this.question = q;
         this.response = r;
     }

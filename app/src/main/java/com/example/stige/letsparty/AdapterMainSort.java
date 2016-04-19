@@ -3,14 +3,11 @@ package com.example.stige.letsparty;
 /**
  * Created by Stige on 07/04/2016.
  */
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +19,12 @@ public class AdapterMainSort extends BaseAdapter{
 
     private Context c;
     private final LayoutInflater mInflater;
-    private List<ConversationFound> data;
+    private List<Conversation> data;
     private static LayoutInflater inflater=null;
 
     //public ImageLoader imageLoader;
 
-    public AdapterMainSort(Context c, List<ConversationFound> inbox) {
+    public AdapterMainSort(Context c, List<Conversation> inbox) {
         mInflater = LayoutInflater.from(c);
         data = new ArrayList<>();
         data.addAll(inbox);

@@ -29,7 +29,7 @@ public class Rellations {
             }
         }
         List<String> noFound = new ArrayList<>();
-        noFound.add(s);
+        noFound.add(s.toLowerCase());
         return noFound;
     }
 }

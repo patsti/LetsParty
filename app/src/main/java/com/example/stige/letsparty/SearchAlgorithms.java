@@ -1,7 +1,5 @@
 package com.example.stige.letsparty;
 
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +7,8 @@ import java.util.List;
  * Created by Patirk on 16/04/2016.
  */
 public class SearchAlgorithms {
-    public List<ConversationFound> findMatch(String sms, List<Sms> lSms){
-        List<ConversationFound> Conversations = new ArrayList<>();
+    public List<Conversation> findMatch(String sms, List<Sms> lSms){
+        List<Conversation> Conversations = new ArrayList<>();
         String[] smsContent = sms.split(" ");//.getMsg().split(" ");
         Rellations rel = new Rellations();
         int matchRate = smsContent.length;
@@ -20,9 +18,9 @@ public class SearchAlgorithms {
 
         for(int i = 1; i < lSms.size(); i++){
             int matchWords = 0;
-            if(lSms.get(i).getFolderName().contains("sent")) {
+            if(lSms.get(i).getFolderName().contains("inbox")) {
                 for(int j = 0; j < matchRate; j++){
-                    String message = lSms.get(i).getMsg().replace("?", "").replace("!","").replace(".","").replace(",","");
+                    String message = lSms.get(i).getMsg().replace("?", "").replace("!","").replace(".","").replace(",","").toLowerCase();
                     List<String> axioms = rel.getAxioms(smsContent[j]);
 
                     for(int k=0; k<axioms.size(); k++) {
@@ -38,12 +36,14 @@ public class SearchAlgorithms {
                     }
                 }
             }
-            if((float)matchWords >= Math.round(matchRate*0.5f)){
+            if((float)matchWords >= Math.round(matchRate*0.7f)){
                for(int j=1; j<5; j++) {
-                    if (lSms.get(i).getAddress().equals(lSms.get(i - j).getAddress()) && !lSms.get(i).getFolderName().equals(lSms.get(i - j).getFolderName())) {
-                        Conversations.add(new ConversationFound(lSms.get(i), lSms.get(i - 1)));
-                        break;
-                    }
+                   if(i>j) {
+                       if (lSms.get(i).getAddress().equals(lSms.get(i - j).getAddress()) && !lSms.get(i).getFolderName().equals(lSms.get(i - j).getFolderName())) {
+                           Conversations.add(new Conversation(lSms.get(i), lSms.get(i - j)));
+                           break;
+                       }
+                   }
                 }
             }
         }
