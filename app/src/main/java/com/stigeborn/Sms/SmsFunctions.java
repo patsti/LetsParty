@@ -1,4 +1,4 @@
-package com.example.stige.letsparty;
+package com.stigeborn.Sms;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.stige.letsparty.MainActivity;
+import com.example.stige.letsparty.Sms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +52,16 @@ public class SmsFunctions {
                 }
 
                 lstSms.add(objSms);
-                if(objSms.getMsg().contains("?")){
+/*                if(objSms.getMsg().contains("?")){
                     MainActivity.qSms.add(objSms);
                 }else{
                     MainActivity.aSms.add(objSms);
                 }
                 //MainActivity.allSms.add(objSms);
-
+*/
                 c.moveToNext();
             }
-            MainActivity.allSms.addAll(lstSms);
+  //          MainActivity.allSms.addAll(lstSms);
         }
         // else {
         // throw new RuntimeException("You have no SMS");

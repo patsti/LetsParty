@@ -8,28 +8,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterSmsList extends BaseAdapter {
+public class AdapterSmsMainSort extends BaseAdapter{
 
 
     private Context c;
     private final LayoutInflater mInflater;
-    private List<Sms> smsList;
+    private List<Sms> data;
     private static LayoutInflater inflater=null;
 
+    //public ImageLoader imageLoader;
 
-    public AdapterSmsList(Context c, List<Sms> sms) {
+    public AdapterSmsMainSort(Context c, List<Sms> inbox) {
         mInflater = LayoutInflater.from(c);
-        this.smsList = sms;
-
+        data = new ArrayList<>();
+        data.addAll(inbox);
+        Toast.makeText(MainActivity.mainactivity, "sms list size: " + String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
         inflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //  imageLoader=new ImageLoader(activity.getApplicationContext());
     }
 
     public int getCount() {
-        return smsList.size();
+        return data.size();
     }
 
     public Object getItem(int position) {
@@ -45,17 +50,16 @@ public class AdapterSmsList extends BaseAdapter {
         if(convertView==null)
             vi = inflater.inflate(R.layout.item_conversation, null);
 
-     /*   TextView to = (TextView)vi.findViewById(R.id.tvAdapterSmsTo); // title
-        TextView from = (TextView)vi.findViewById(R.id.tvAdapterSmsFrom); // title
-        TextView content = (TextView)vi.findViewById(R.id.tvAdapterSmsContent); // title
 
-        Sms sms = smsList.get(position);
+        Sms smsR = data.get(position);
+        TextView toR = (TextView)vi.findViewById(R.id.tvAdapterSmsTo2); // title
+        TextView fromR = (TextView)vi.findViewById(R.id.tvAdapterSmsFrom2); // title
+        TextView contentR = (TextView)vi.findViewById(R.id.tvAdapterSmsContent2); // title
 
-        to.setText(sms.getTime() +" : ");
-        from.setText(sms.getId());
-        content.setText(sms.getMsg());
-    */
-//    imageLoader.DisplayImage(song.get(CustomizedListView.KEY_THUMB_URL), thumb_image);
+        toR.setText(smsR.getAddress());
+        fromR.setText(smsR.getFolderName());
+        contentR.setText(smsR.getMsg());
+
         return vi;
     }
 }
